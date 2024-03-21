@@ -7,6 +7,7 @@
         <input type="text" name="title" placeholder="Search by title"
             value="{{ request('title') }}" class="input h-10" />
         <button type="submit" class="btn h-10">Search</button>
+        <input type="hidden" name="filter" value="{{ request('filter') }}"/>
         <a href="{{ route('books.index') }}" class="btn h-10">Clear</a>
     </form>
 
@@ -20,6 +21,13 @@
                 'highest_rated_last_6_months' => 'Highest Rated Last 6 Months'
             ];
         @endphp
+
+        @foreach ($filters as $key => $label)
+            <a href="{{ route('books.index', [...request()->query(),'filter' => $key]) }}" 
+                class="{{ request('filter') === $key || (request('filter') === null && $key === '') ? 'filter-item-active' : 'filter-item' }}">
+                {{ $label }}
+            </a>
+        @endforeach
     </div>
 
     <ul>
